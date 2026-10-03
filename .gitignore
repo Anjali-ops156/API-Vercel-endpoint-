@@ -1,0 +1,15 @@
+# Secrets — these must NEVER reach GitHub
+.env
+.env.local
+.env*.local
+
+# Dependencies
+node_modules/
+
+# Vercel
+.vercel
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log

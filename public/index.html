@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SalonEase API — Live Test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    color-scheme:light;
+    --paper:#F5F7F8; --surface:#fff; --surface-2:#EDF1F3;
+    --ink:#121719; --ink-2:#3B464A; --muted:#5E6A6E; --rule:#DBE2E5;
+    --teal:#0B6B5B; --teal-wash:#E3F0ED;
+    --rust:#A8430E; --rust-wash:#FBECE3;
+    --blue:#12618F; --blue-wash:#E4EFF7;
+    --sans:"IBM Plex Sans",ui-sans-serif,system-ui,Segoe UI,Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+    font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin-inline:auto;padding:36px 20px 80px}
+  header{border-bottom:1px solid var(--rule);padding-bottom:22px;margin-bottom:26px}
+  .kick{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--teal);margin:0 0 10px;font-weight:600}
+  h1{font-weight:700;font-size:clamp(27px,5vw,38px);letter-spacing:-.025em;margin:0 0 8px;line-height:1.08}
+  .sub{color:var(--muted);margin:0;max-width:60ch}
+  .base{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);background:var(--surface-2);
+    border:1px solid var(--rule);border-radius:6px;padding:7px 11px;display:inline-block;margin-top:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-bottom:22px}
+  .card{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--teal);
+    border-radius:10px;padding:16px 18px}
+  .card.w{border-left-color:var(--rust)}
+  .card.b{border-left-color:var(--blue)}
+  .m{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;padding:3px 7px;
+    border-radius:4px;background:var(--teal-wash);color:var(--teal);margin-right:7px}
+  .m.post{background:var(--rust-wash);color:var(--rust)}
+  .ep{font-family:var(--mono);font-size:14px;font-weight:500}
+  .card p{font-size:13.5px;color:var(--muted);margin:9px 0 13px;line-height:1.5}
+  .f{display:flex;gap:7px;flex-wrap:wrap}
+  input{font-family:var(--sans);font-size:13.5px;padding:7px 10px;border:1px solid var(--rule);
+    border-radius:6px;background:var(--paper);color:var(--ink);flex:1;min-width:100px}
+  input:focus{outline:2px solid var(--teal);outline-offset:-1px}
+  button{font-family:var(--sans);font-size:13.5px;font-weight:600;cursor:pointer;border:none;
+    border-radius:6px;padding:8px 15px;background:var(--teal);color:#fff;white-space:nowrap}
+  button:hover{filter:brightness(1.1)}
+  button:disabled{opacity:.5;cursor:default}
+  .card.w button{background:var(--rust)}
+  .card.b button{background:var(--blue)}
+  .out{background:var(--surface);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+  .out-h{display:flex;align-items:center;gap:11px;padding:11px 16px;background:var(--surface-2);
+    border-bottom:1px solid var(--rule);flex-wrap:wrap}
+  .out-h .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);font-weight:600}
+  .url{font-family:var(--mono);font-size:12.5px;color:var(--ink-2);word-break:break-all;flex:1;min-width:140px}
+  .status{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:12px;white-space:nowrap}
+  .status.ok{background:var(--teal-wash);color:var(--teal)}
+  .status.bad{background:var(--rust-wash);color:var(--rust)}
+  pre{margin:0;padding:16px;font-family:var(--mono);font-size:12.8px;line-height:1.65;
+    color:var(--ink-2);overflow-x:auto;white-space:pre-wrap;word-break:break-word;max-height:460px}
+  footer{margin-top:26px;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="kick">Punjab Jobs AI Bootcamp · Session 7</p>
+    <h1>SalonEase API</h1>
+    <p class="sub">Vercel serverless functions backed by a Supabase database. Press a button — the request URL, the status code and the real JSON response all appear below.</p>
+    <div class="base">Base URL: <span id="base">…</span></div>
+  </header>
+
+  <div class="grid">
+
+    <div class="card">
+      <div><span class="m">GET</span><span class="ep">/api/hello</span></div>
+      <p>Proves the pipeline works. No input, no database.</p>
+      <div class="f"><button data-get="/api/hello">Call it</button></div>
+    </div>
+
+    <div class="card">
+      <div><span class="m">GET</span><span class="ep">/api/greet</span></div>
+      <p>Input shapes the response — your first query parameter.</p>
+      <div class="f">
+        <input id="greetName" value="Anjali" placeholder="name">
+        <button id="greetBtn">Call it</button>
+      </div>
+    </div>
+
+    <div class="card b">
+      <div><span class="m">GET</span><span class="ep">/api/bookings</span></div>
+      <p>Reads every booking from Supabase and totals the day's revenue.</p>
+      <div class="f"><button data-get="/api/bookings">Call it</button></div>
+    </div>
+
+    <div class="card w">
+      <div><span class="m post">POST</span><span class="ep">/api/bookings</span></div>
+      <p>Writes a new booking into the database and returns the created row.</p>
+      <div class="f">
+        <input id="pName" value="Test Customer" placeholder="customer name">
+        <input id="pService" value="Haircut" placeholder="service">
+        <button id="postBtn">Create</button>
+      </div>
+    </div>
+
+    <div class="card b">
+      <div><span class="m">GET</span><span class="ep">/api/weather</span></div>
+      <p>Calls a real keyed API. The key stays on the server, never in the browser.</p>
+      <div class="f">
+        <input id="city" value="Ludhiana" placeholder="city">
+        <button id="weatherBtn">Call it</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="out">
+    <div class="out-h">
+      <span class="lbl">Response</span>
+      <span class="url" id="url">Press a button above</span>
+      <span class="status" id="status" hidden></span>
+    </div>
+    <pre id="body">Nothing called yet.</pre>
+  </div>
+
+  <footer>
+    SalonEase · Session 7 homework — API building and consuming<br>
+    Keys are read from environment variables on the server. None of them reach this page.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  $('base').textContent = location.origin;
+
+  function show(url, status, ok, payload){
+    $('url').textContent = url;
+    var s = $('status');
+    s.hidden = false;
+    s.textContent = status;
+    s.className = 'status ' + (ok ? 'ok' : 'bad');
+    $('body').textContent = payload;
+  }
+
+  async function call(path, options){
+    $('url').textContent = path;
+    $('status').hidden = true;
+    $('body').textContent = 'Calling…';
+    try{
+      var r = await fetch(path, options);
+      var text = await r.text();
+      var pretty = text;
+      try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch(e) {}
+      show(path, r.status + ' ' + r.statusText, r.ok, pretty);
+    }catch(err){
+      show(path, 'network error', false, String(err));
+    }
+  }
+
+  document.querySelectorAll('[data-get]').forEach(function(b){
+    b.addEventListener('click', function(){ call(b.dataset.get); });
+  });
+
+  $('greetBtn').addEventListener('click', function(){
+    call('/api/greet?name=' + encodeURIComponent($('greetName').value || 'there'));
+  });
+
+  $('weatherBtn').addEventListener('click', function(){
+    call('/api/weather?city=' + encodeURIComponent($('city').value || 'Ludhiana'));
+  });
+
+  $('postBtn').addEventListener('click', function(){
+    var now = new Date();
+    var hh = String(now.getHours()).padStart(2,'0');
+    call('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer_name: $('pName').value || 'Test Customer',
+        phone: '9876500099',
+        service: $('pService').value || 'Haircut',
+        stylist: 'Ravi',
+        booking_date: now.toISOString().slice(0,10),
+        start_time: hh + ':00',
+        amount: 300
+      })
+    });
+  });
+})();
+</script>
+</body>
+</html>
