@@ -9,6 +9,7 @@
 // only in environment variables — never in the code, never in GitHub.
 
 import { createClient } from "@supabase/supabase-js";
+import { notifyAll } from "../lib/notify.js";
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -93,7 +94,12 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Could not create booking", detail: error.message });
     }
 
-    return res.status(201).json(data);
+    // The booking is saved. Everything below is a bonus — if a notification
+    // fails, the appointment still exists and the customer still has their
+    // slot. That is why this sits AFTER the insert and never throws.
+    const notifications = await notifyAll(data);
+
+    return res.status(201).json({ ...data, notifications });
   }
 
   // ------------------------------------------------------------ anything else

@@ -107,11 +107,17 @@
 
     <div class="card b">
       <div><span class="m">GET</span><span class="ep">/api/weather</span></div>
-      <p>Calls a real keyed API. The key stays on the server, never in the browser.</p>
+      <p>Calls Open-Meteo, then turns the temperature into a drink and a service suggestion. No API key needed.</p>
       <div class="f">
         <input id="city" value="Ludhiana" placeholder="city">
         <button id="weatherBtn">Call it</button>
       </div>
+    </div>
+
+    <div class="card w">
+      <div><span class="m">GET</span><span class="ep">/api/notify-test</span></div>
+      <p>Fires a test WhatsApp message and a test email without creating a booking. Reports which channel worked.</p>
+      <div class="f"><button data-get="/api/notify-test">Send test</button></div>
     </div>
 
   </div>
